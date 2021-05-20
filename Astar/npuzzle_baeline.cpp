@@ -8,14 +8,13 @@
 #include<vector>
 #include<queue>
 #include<cmath>
-#include<map>
 using namespace std;
 
 //Search Node Class
 class Node
 {
     public:
-        int parent;                             //父节点 
+        Node* parent;                           //父节点 
         vector<vector<int>> state;              //数码状态                          
         int size;                               //大小
         int f;                                  //f=g+h
@@ -43,7 +42,6 @@ Node::Node(int N)
     for(int i=0;i<size;i++)
         state[i].resize(size);
     g=0;f=0;h=0;
-    parent=-1;
 }
 void Node::initByN(int N)
 {
@@ -56,7 +54,6 @@ void Node::initByN(int N)
     for(int i=0;i<size;i++)
         state[i].resize(size);
     g=0;f=0;h=0;
-    parent=-1;
 }
 void Node::show()
 {
@@ -129,7 +126,7 @@ int Node::countHByMH(Node &s)
     return sum;
 }
 /*
-    获得子节点的函数 0：左  1：上  2：右  3：下
+    获得子节点的函数 0：左 1：上 2：右 3：下
     child记录获得的子节点
 */
 int Node::getChildByMove(int direction,int cost,Node &child,Node& t)
@@ -144,9 +141,9 @@ int Node::getChildByMove(int direction,int cost,Node &child,Node& t)
         if(y==0)
             return -1;
         else{
-            child.parent=2;
             swap(child.state[x][y],child.state[x][y-1]);
             child.setFGH(g+cost,child.countHByMH(t));
+            child.parent=this;
         }
     }
     else if(direction==1)       //上移空白格
@@ -154,9 +151,9 @@ int Node::getChildByMove(int direction,int cost,Node &child,Node& t)
         if(x==0)
             return -1;
         else{
-            child.parent=3;
             swap(child.state[x][y],child.state[x-1][y]);
             child.setFGH(g+cost,child.countHByMH(t));
+            child.parent=this;
         }
     }
     else if(direction==2)       //右移空白格
@@ -164,9 +161,9 @@ int Node::getChildByMove(int direction,int cost,Node &child,Node& t)
         if(y==(size-1))
             return -1;
         else{
-            child.parent=0;
             swap(child.state[x][y],child.state[x][y+1]);
             child.setFGH(g+cost,child.countHByMH(t));
+            child.parent=this;
         }
     }
     else if(direction==3)       //下移空白格
@@ -174,9 +171,9 @@ int Node::getChildByMove(int direction,int cost,Node &child,Node& t)
         if(x==(size-1))
             return -1;
         else{
-            child.parent=1;
             swap(child.state[x][y],child.state[x+1][y]);
             child.setFGH(g+cost,child.countHByMH(t));
+            child.parent=this;
         }
     }
     return 1;
@@ -196,6 +193,7 @@ void initInputState()
     infile>>N;
     //初始化大小
     initNode.initByN(N);
+    initNode.parent=NULL;
     initNode.g=0;
     targetNode.initByN(N);
     //获得初始状态
@@ -213,6 +211,19 @@ void initInputState()
     infile.close();
 }
 /*
+    从目标节点开始回溯路径
+*/
+void printPath(Node *node)
+{
+    if(node->parent!=NULL)
+    {
+        printPath(node->parent);
+    }
+    cout<<"State："<<endl;
+    node->show();
+    cout<<endl;
+}
+/*
     判断一个vector中是否有Node元素
     有返回index，无则返回-1
 */
@@ -223,47 +234,6 @@ int searchInVector(vector<Node> v,Node &node)
     return -1;
 }
 /*
-    从目标节点开始回溯路径,需要explore队列
-*/
-void printPath(Node node,vector<Node> visited)
-{
-    // cout<<"explored："<<endl;
-    // for (int i = 0; i < visited.size(); i++)
-    // {
-    //     visited[i].show();
-    //     cout<<endl;
-    // }
-    vector<Node> path;
-    //加入目标节点
-    path.push_back(node);
-    while(node.parent!=-1)
-    {
-        Node tmpNode=Node(N);
-        int flag=node.getChildByMove(node.parent,1,tmpNode,targetNode);
-        path.push_back(tmpNode);
-        int t_index=searchInVector(visited,tmpNode);
-        if (t_index!=-1)
-            node=visited[t_index];
-        else
-        {
-            cout<<"出错"<<endl;
-            return ;
-        }
-    }
-    reverse(path.begin(),path.end());
-    printf("共%d步\n",path.size()-1);
-    cout<<"初始状态"<<endl;
-    initNode.show();
-    for (int i = 1; i < path.size()-1; i++){
-        cout<<"第"<<i<<"步"<<endl;
-        path[i].show();
-    }
-    cout<<"目标状态"<<endl;
-    targetNode.show();
-        
-}
-
-/*
     无解返回-1，找到返回1
 */
 int aStarSearch()
@@ -272,6 +242,12 @@ int aStarSearch()
     vector<Node> frontier;
     //explored
     vector<Node> explored;
+    if (initNode==targetNode)
+    {
+        targetNode.parent=NULL;
+        printPath(&initNode);
+        return 1;
+    }
     frontier.push_back(initNode);
     while (true)
     {
@@ -281,7 +257,6 @@ int aStarSearch()
         Node currentNode=frontier.back();
         frontier.pop_back();
         vector<Node> childNodeList;
-        explored.push_back(currentNode);
         for(int i=0;i<4;i++)
         {
             Node tmpChildNode=Node(N);
@@ -291,20 +266,19 @@ int aStarSearch()
         //对子节点进行目标测试
         for(int i=0;i<childNodeList.size();i++)
         {
-            //childNodeList[i].show();
             if(childNodeList[i]==targetNode)
             {
-                printPath(childNodeList[i],explored);
+                printPath(&childNodeList[i]);
                 return 1;
             }
         }
+        explored.push_back(currentNode);
         //将childNode加入到frontier中
-        //cout<<"Explored size b:"<<explored.size()<<" Frontiner size b:"<<frontier.size()<<endl;
+        cout<<"Explored size b:"<<explored.size()<<" Frontiner size b:"<<frontier.size()<<endl;
         for(int i=0;i<childNodeList.size();i++)
         {
-            int indexInFront=searchInVector(frontier,childNodeList[i]);
-            int indexInExplored=searchInVector(explored,childNodeList[i]);
-            //cout<<indexInFront<<","<<indexInExplored<<endl;
+            int indexInExplored=searchInVector(frontier,childNodeList[i]);
+            int indexInFront=searchInVector(explored,childNodeList[i]);
             if(indexInExplored==-1&&indexInFront==-1)
                 frontier.push_back(childNodeList[i]);
             else if(indexInFront!=-1)
@@ -316,8 +290,9 @@ int aStarSearch()
                 }
             }
         }
-        //cout<<"Explored size:"<<explored.size()<<" Frontiner size:"<<frontier.size()<<endl;
+        cout<<"Explored size:"<<explored.size()<<" Frontiner size:"<<frontier.size()<<endl;
     }
+    return -1;
 }
 int main()
 {
