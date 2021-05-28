@@ -8,9 +8,16 @@
 #include<vector>
 #include<queue>
 #include<cmath>
+#include<ctime>
 #include<map>
 using namespace std;
-
+#define PASTCOST 2           //定义路径值
+#define MANHATTAN 1
+#define HAMMING 2
+#define OuShi 3
+//输入出文件
+ifstream infile("Npuzzle_in.txt");
+ofstream outfile("Npuzzle_out.txt");
 //Search Node Class
 class Node
 {
@@ -27,10 +34,13 @@ class Node
         bool operator <(const Node &s) const;                   //重载运算符实现优先级队列
         bool operator ==(const Node &s) const;                  //重载等号，判断两个Node的状态值
         int countHByMH(Node &s);                                //计算到另一个节点的Manhattan距离
+        int countByHAIMING(Node &s);                            //计算到另一个节点的HaiMing距离
+        int countByEuclideanD(Node &s);                         //计算到另一个节点的欧式距离
         void show();                                            //显示状态函数
         int findValueInState(int goal,int &row,int &col);       //在State中找到元素并记录坐标值
-        void setFGH(int gg,int hh){g=gg;h=hh;f=g+h;};           //设置启发式的值
-        int getChildByMove(int direction,int cost,Node &children,Node& t);  //获得子节点的函数 0：左 1：上 2：右 3：下
+        void setFGH(int gg,int hh){g=gg;h=hh;f=g+h;};       //设置启发式的值
+        int getInvCount();                                      //获得序列的逆序对
+        int getChildByMove(int direction,int cost,Node &children,Node& t,int hn);  //获得子节点的函数 0：左 1：上 2：右 3：下
 };
 Node::Node(int N)
 {
@@ -63,10 +73,8 @@ void Node::show()
     for (int i = 0; i < size; i++)
     {
         for (int j = 0; j < size; j++)
-        {
-            cout<<state[i][j]<<" ";
-        }
-        cout<<endl;
+            outfile<<state[i][j]<<" ";
+        outfile<<endl;
     }
 }
 bool Node::operator <(const Node &s) const{
@@ -107,7 +115,7 @@ int Node::findValueInState(int goal,int &row,int &col)
     return -1;
 }
 /*
-    计算两个节点之间的曼哈顿距离，如出错返回-1
+    计算两个节点之间的曼哈顿距离，海明距离和欧式距离。如出错返回-1
 */
 int Node::countHByMH(Node &s)
 {
@@ -128,11 +136,40 @@ int Node::countHByMH(Node &s)
     }
     return sum;
 }
+int Node::countByHAIMING(Node &s)
+{
+    int sum=0;
+    int x,y;
+    for (int i = 0; i < size; i++)
+    {
+        for (int j = 0; j < size; j++)
+            if(state[i][j]&&state[i][j]!=s.state[i][j]) sum++;
+    }
+    return sum;
+}
+int Node::countByEuclideanD(Node &s)
+{
+    int sum=0;
+    int x,y;
+    for (int i = 0; i < size; i++)
+    {
+        for (int j = 0; j < size; j++)
+        {
+            if(state[i][j]==0) continue;
+            //找到了
+            if(s.findValueInState(state[i][j],x,y))
+                sum+=sqrt(pow((x-i),2)+pow((y-j),2));
+            //找不到报错
+            else return -1;
+        }
+    }
+    return sum;
+}
 /*
     获得子节点的函数 0：左  1：上  2：右  3：下
     child记录获得的子节点
 */
-int Node::getChildByMove(int direction,int cost,Node &child,Node& t)
+int Node::getChildByMove(int direction,int cost,Node &child,Node& t,int hn)
 {
     int x,y;                    //记录空白格的坐标
     if(findValueInState(0,x,y)==0) return -1; 
@@ -146,7 +183,6 @@ int Node::getChildByMove(int direction,int cost,Node &child,Node& t)
         else{
             child.parent=2;
             swap(child.state[x][y],child.state[x][y-1]);
-            child.setFGH(g+cost,child.countHByMH(t));
         }
     }
     else if(direction==1)       //上移空白格
@@ -156,7 +192,6 @@ int Node::getChildByMove(int direction,int cost,Node &child,Node& t)
         else{
             child.parent=3;
             swap(child.state[x][y],child.state[x-1][y]);
-            child.setFGH(g+cost,child.countHByMH(t));
         }
     }
     else if(direction==2)       //右移空白格
@@ -166,7 +201,6 @@ int Node::getChildByMove(int direction,int cost,Node &child,Node& t)
         else{
             child.parent=0;
             swap(child.state[x][y],child.state[x][y+1]);
-            child.setFGH(g+cost,child.countHByMH(t));
         }
     }
     else if(direction==3)       //下移空白格
@@ -176,13 +210,67 @@ int Node::getChildByMove(int direction,int cost,Node &child,Node& t)
         else{
             child.parent=1;
             swap(child.state[x][y],child.state[x+1][y]);
-            child.setFGH(g+cost,child.countHByMH(t));
         }
     }
+    if(hn==MANHATTAN)
+        child.setFGH(g+cost,child.countHByMH(t));
+    else if(hn==HAMMING)
+        child.setFGH(g+cost,child.countByHAIMING(t));
+    else if(hn==OuShi)
+        child.setFGH(g+cost,child.countByEuclideanD(t));
     return 1;
 }
-//输入文件
-ifstream infile("Npuzzle_in.txt");
+/*
+    归并排序并算出逆序数
+*/
+int mergeSort(vector<int>& nums,vector<int>& tmp,int l,int r)
+{
+    if(l>=r)
+        return 0;
+    int mid=(l+r)/2;
+    int inv_count=mergeSort(nums,tmp,l,mid)+mergeSort(nums,tmp,mid+1,r);
+    int i=l,j=mid+1,pos=l;
+    while(i<=mid&&j<=r){
+        if(nums[i]<=nums[j]){
+            tmp[pos]=nums[i];
+            inv_count+=(j-(mid+1));
+            i++;
+        }
+        else{
+            tmp[pos]=nums[j];
+            j++;
+        }
+        pos++;    
+    }
+    for (int ll = i; ll <=mid; ll++)
+    {
+        tmp[pos++]=nums[ll];
+        inv_count+=(j-(mid+1));
+    }
+    for (int rr = j; rr <= r; rr++)
+        tmp[pos++]=nums[rr];
+    copy(tmp.begin() + l, tmp.begin() + r + 1, nums.begin() + l);
+    return inv_count;
+}
+/*
+    返回该节点状态的逆序对
+*/
+int Node::getInvCount(){
+    vector<int> array;
+    //先将State其转换成数组除去0
+    for (int i = 0; i < size; i++)
+    {
+        for (int j = 0; j < size; j++)
+        {
+            if (state[i][j]==0) continue;
+            array.push_back(state[i][j]);   
+        }
+    }
+    vector<int> tmp(array.size());
+    return mergeSort(array,tmp,0,array.size()-1);
+}
+
+
 //大小
 int N;
 //初始状态节点
@@ -227,19 +315,13 @@ int searchInVector(vector<Node> v,Node &node)
 */
 void printPath(Node node,vector<Node> visited)
 {
-    // cout<<"explored："<<endl;
-    // for (int i = 0; i < visited.size(); i++)
-    // {
-    //     visited[i].show();
-    //     cout<<endl;
-    // }
     vector<Node> path;
     //加入目标节点
     path.push_back(node);
     while(node.parent!=-1)
     {
         Node tmpNode=Node(N);
-        int flag=node.getChildByMove(node.parent,1,tmpNode,targetNode);
+        int flag=node.getChildByMove(node.parent,1,tmpNode,targetNode,-1);
         path.push_back(tmpNode);
         int t_index=searchInVector(visited,tmpNode);
         if (t_index!=-1)
@@ -251,32 +333,44 @@ void printPath(Node node,vector<Node> visited)
         }
     }
     reverse(path.begin(),path.end());
-    printf("共%d步\n",path.size()-1);
-    cout<<"初始状态"<<endl;
+    outfile<<"共"<<path.size()-1<<"步"<<endl;
+    outfile<<"初始状态"<<endl;
     initNode.show();
     for (int i = 1; i < path.size()-1; i++){
-        cout<<"第"<<i<<"步"<<endl;
+        outfile<<"第"<<i<<"步"<<endl;
         path[i].show();
     }
-    cout<<"目标状态"<<endl;
+    outfile<<"目标状态"<<endl;
     targetNode.show();
-        
 }
-
+/*
+    判断初始和目标节点是否有解
+*/
+bool isAvaliableSearch(Node& start,Node& end){
+    int f_1=start.getInvCount();
+    int f_2=end.getInvCount();
+    if ((f_1%2)==(f_1%2))
+        return true;
+    else
+        return false;
+}
 /*
     无解返回-1，找到返回1
 */
-int aStarSearch()
+vector<Node> explored;
+Node childTarget;
+int aStarSearch(int hn)
 {
+    if (!isAvaliableSearch(initNode,targetNode))
+        return -1;
     //frontier
     vector<Node> frontier;
     //explored
-    vector<Node> explored;
+
     frontier.push_back(initNode);
     while (true)
     {
-        //返回失败
-        if(frontier.empty()) return -1;
+        if(frontier.empty()) return -1;             //返回失败
         sort(frontier.begin(),frontier.end());      //按照f从大到小的顺序排列
         Node currentNode=frontier.back();
         frontier.pop_back();
@@ -285,26 +379,24 @@ int aStarSearch()
         for(int i=0;i<4;i++)
         {
             Node tmpChildNode=Node(N);
-            int flag=currentNode.getChildByMove(i,1,tmpChildNode,targetNode);
+            int flag=currentNode.getChildByMove(i,PASTCOST,tmpChildNode,targetNode,hn);
             if(flag!=-1)    childNodeList.push_back(tmpChildNode);
         }
         //对子节点进行目标测试
         for(int i=0;i<childNodeList.size();i++)
         {
-            //childNodeList[i].show();
             if(childNodeList[i]==targetNode)
             {
-                printPath(childNodeList[i],explored);
+                childTarget=childNodeList[i];
+                //printPath(childNodeList[i],explored);
                 return 1;
             }
         }
         //将childNode加入到frontier中
-        //cout<<"Explored size b:"<<explored.size()<<" Frontiner size b:"<<frontier.size()<<endl;
         for(int i=0;i<childNodeList.size();i++)
         {
             int indexInFront=searchInVector(frontier,childNodeList[i]);
             int indexInExplored=searchInVector(explored,childNodeList[i]);
-            //cout<<indexInFront<<","<<indexInExplored<<endl;
             if(indexInExplored==-1&&indexInFront==-1)
                 frontier.push_back(childNodeList[i]);
             else if(indexInFront!=-1)
@@ -316,14 +408,23 @@ int aStarSearch()
                 }
             }
         }
-        //cout<<"Explored size:"<<explored.size()<<" Frontiner size:"<<frontier.size()<<endl;
     }
 }
 int main()
 {
     initInputState();
-    int result=aStarSearch();
+    
+    clock_t start = clock();
+    int result=aStarSearch(OuShi);
+    clock_t end = clock();
     if(result==-1)
         cout<<"无解！"<<endl;
+    else{
+        cout<<"扩展了节点个数:"<<explored.size()<<endl;
+        cout<<"搜索用时为："<<(double)(end - start) / CLOCKS_PER_SEC<<"s"<<endl;
+        printPath(childTarget,explored);
+        cout<<endl;
+    }
+    outfile.close();
     return 0;
 }
