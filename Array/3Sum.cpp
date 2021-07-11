@@ -8,52 +8,50 @@ void print_list(vector<int>& nums){
         cout<<nums[i]<<" ";
     cout<<endl;
 }
-vector<int> twoSum(vector<int>& nums, int target, int start) {
-    vector<int> tmp={-1,-1};
-    unordered_map<int,int> num_index;
-    for (int i = start; i < nums.size(); i++)
-        num_index[nums[i]]=i;
-    for (int i = start; i < nums.size(); i++)
+vector<vector<int>> threeSum(vector<int>& nums) {
+    vector<vector<int>> result={};
+    if (nums.size()<3)
+        return result;
+    //sorted array
+    sort(nums.begin(),nums.end());
+    for (int i = 0; i < nums.size()-2; i++)
     {
-        int gap=target - nums[i];
-        if(num_index.count(gap)&&num_index[gap]>i)
+        // two point
+        int left=i+1,right=nums.size()-1;
+        if(nums[i]>0)
+            return result;
+        // repeat element is only check the first element
+        if(i>0 && nums[i]==nums[i-1])
+            continue;
+        while(left<right)
         {
-            tmp[0]=i;
-            tmp[1]=num_index[gap];
-            break;
+            if (nums[i]+nums[left]+nums[right] == 0)
+            {
+                vector<int> result_line;
+                result_line.push_back(nums[i]);
+                result_line.push_back(nums[left]);
+                result_line.push_back(nums[right]);
+                result.push_back(result_line);
+                while(left<right&&nums[left]==nums[left+1])
+                    left++;
+                while(left<right&&nums[right-1]==nums[right])
+                    right--;
+                left++;
+                right--;
+            }
+            else if (nums[i]+nums[left]+nums[right]<0)
+                left++;
+            else
+                right--;
         }
     }
-    return tmp;
-}
-vector<vector<int>> threeSum(vector<int>& nums) {
-    vector<vector<int>> result;
-    sort(nums.begin(),nums.end());
-    for (int i = 0; i < nums.size(); i++)
-    {
-        // num‘s index in nums
-        vector<int> tmp = twoSum(nums,0-nums[i],i+1);
-        if (tmp[0] != -1 && tmp[1] != -1){
-            tmp.insert(tmp.begin(),i);
-            vector<int> result_line;
-            for (int j = 0; j < tmp.size(); j++)
-                result_line.push_back(nums[tmp[j]]);
-            int endIndex=result.size()-1;
-            if(result.size()>0){
-                //triple is same: avoid repeat element 
-                if(result_line[0]!=result[endIndex][0] || result_line[1]!=result[endIndex][1] ||result_line[2]!=result[endIndex][2])
-                    result.push_back(result_line);
-            }
-            else
-                result.push_back(result_line);
-        }  
-    }
-    for (int i = 0; i < result.size(); i++)
-        print_list(result[i]);
     return result;
 }
 int main()
 {
-    vector<int> nums={-2,0,1,1,2};
-    threeSum(nums);
+    vector<int> nums={-1,0,1,2,-1,-4};
+    vector<vector<int>> res = threeSum(nums);
+    for(int i=0;i<res.size();i++)
+        print_list(res[i]);
     return 0;
 }
