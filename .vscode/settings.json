@@ -39,6 +39,14 @@
         "stdexcept": "cpp",
         "streambuf": "cpp",
         "typeinfo": "cpp",
-        "unordered_set": "cpp"
+        "unordered_set": "cpp",
+        "ctime": "cpp",
+        "functional": "cpp",
+        "iterator": "cpp",
+        "map": "cpp",
+        "numeric": "cpp",
+        "random": "cpp",
+        "cinttypes": "cpp",
+        "bit": "cpp"
     }
 }
