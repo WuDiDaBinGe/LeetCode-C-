@@ -32,9 +32,43 @@ int trap(vector<int>& height) {
     return res;
     
 }
+/*
+    找到最高的柱子，处理左边和右边的值
+    1. 从左边到最高 (每一个柱子能接水的面积为:max(该柱子左边所有柱子的最高)-该柱子的高度)
+    2. 从右边到最高 (每一个柱子能接水的面积为:max(该柱子右边所有柱子的最高)-该柱子的高度)
+*/
+int trap2(vector<int>& height){
+    int max_index =0;
+    for (int i = 0; i < height.size(); i++)
+    {
+        if(height[i]>height[max_index])
+            max_index =i;
+    }
+    int water=0;
+    //左边 左边柱子的右边一定有最高的柱子，只要找到其左边最高的柱子即可
+    for (int i = 0, peak =0 ; i < max_index; i++)
+    {
+        if(height[i]>peak) peak = height[i];
+        else water += peak-height[i];
+    }
+    //右边
+    for (int i = height.size()-1,peak=0; i >= max_index; i--)
+    {
+        if (height[i]>peak) peak = height[i];
+        else water += peak-height[i];
+    }
+    return water;
+}
+/*
+    使用辅助栈的方法
+    
+*/
+int trap3(vector<int>& height){
+    
+}
 int main()
 {
     vector<int> a ={0,1,0,2,1,0,1,3,2,1,2,1};
-    cout<<trap(a)<<endl;
+    cout<<trap2(a)<<endl;
     return 0;
 }
