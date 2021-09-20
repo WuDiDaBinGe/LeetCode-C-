@@ -55,7 +55,7 @@ string getPermutation(int n, int k) {
     }
     return res;
 }
-
+/*反过来 求一个数字序列 是第几个全排序*/
 int main()
 {
     cout<<getPermutation(5,16)<<endl;
