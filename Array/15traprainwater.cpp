@@ -81,14 +81,15 @@ int trap3(vector<int>& height){
             //比栈顶元素高度 高
             int current_index = s_stack.top().first;
             int current_height = s_stack.top().second;
-            cout<<current_index<< "  "<<current_height<<endl; 
             //弹出元素
             s_stack.pop();
-            water += min(height[i]-current_height,s_stack.top().second-current_height)*(i-s_stack.top().first-1);
-            cout<<"面积为："<<water<<endl;
+            // 判断是否为空
+            if (!s_stack.empty())
+            {
+                water += min(height[i]-current_height,s_stack.top().second-current_height)*(i-s_stack.top().first-1);
+            }
         }
         s_stack.push(make_pair(i,height[i]));
-        cout<<s_stack.size()<<endl;
     }
     return water;
     //4 3 2 0 1 1 5
@@ -97,6 +98,6 @@ int main()
 {
     vector<int> a ={0,1,0,2,1,0,1,3,2,1,2,1};
     //vector<int> a ={4,3,2,0,1,1,5};
-    cout<<trap3(a)<<endl;
+    cout<<trap2(a)<<endl;
     return 0;
 }
