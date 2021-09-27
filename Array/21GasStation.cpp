@@ -105,6 +105,12 @@ int canCompleteCircuit2(vector<int>& gas, vector<int>& cost) {
 }
 /*时间复杂度为O(N)的解法*/
 // 不太理解。。。
+/*
+    total 确定总的是够满足
+    如果总的满足 那么确定每一段之间是否满足，接着上一种方法理解
+    i最远到j 那么i-j之间的节点都不能作为起点
+    即要选择j后面的点作为起点
+*/
 int canCompleteCircuitON(vector<int>& gas, vector<int>& cost) {
     int j =0;
     int total =0;
