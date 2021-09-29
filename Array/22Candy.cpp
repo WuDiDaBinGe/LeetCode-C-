@@ -60,8 +60,43 @@ int candy(vector<int>& ratings) {
     cout<<endl;
     return res;
 }
+/*
+    贪心的四步：
+    1. 分解子问题
+    2. 找到合适的贪心策略
+    3. 求解子问题，找到局部最优解
+    4. 将局部最优解堆叠找到全局最优解
+    将相邻孩子中评分最高的获得的糖果最多，化成两个规则
+    1. 从左向右 如果右边的孩子评分比左边的高 那么candy[i]=candy[i]+1（因为最少-> +1贪心）
+    2. 从右向左 如果左边孩子评分比右边孩子高 那么candy[i-1]=candy[i]+1
+    两个子问题都达到了全局最优，如何得到全局最优？
+    要求比邻居评分高的孩子即要大于左边孩子又要大于右边的孩子
+    即对两个子问题求解max(left,right)
+ */
+int candy2(vector<int>& ratings) {
+    int size = ratings.size();
+    vector<int> candyvec(size,1);
+    
+    // 从前向后
+    for (int i = 1; i < size; i++) {
+        if (ratings[i]>ratings[i-1]) {
+            candyvec[i]=candyvec[i-1]+1;
+        }  
+    }
+    // 从后向前
+    for (int i=size-2;i>=0;i--) {
+        if (ratings[i]>ratings[i+1]) {
+            candyvec[i]=max(candyvec[i+1]+1,candyvec[i]); 
+        } 
+    }
+    int res=0;
+    for (int i = 0; i < size; i++) {
+        res += candyvec[i];
+    }
+    return res;
+}
 int main() {
     vector<int> t = {2,1};
-    cout<<candy(t)<<endl;
+    cout<<candy2(t)<<endl;
     return 0;
 }

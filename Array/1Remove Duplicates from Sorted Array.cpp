@@ -1,7 +1,8 @@
 #include<iostream>
 #include<vector>
-#include <iterator>
-#include <cassert>
+#include<iterator>
+#include<algorithm>
+#include<cassert>
 using namespace std;
 class Solution {
 public:

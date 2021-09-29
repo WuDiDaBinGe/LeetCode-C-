@@ -1,6 +1,9 @@
 #include<iostream>
 #include<vector>
 using namespace std;
+/*
+    与上一题相比增加了重复的元素
+*/
 int search(vector<int>& nums, int target){
     int first=0, end=nums.size()-1;
     while(first<=end){

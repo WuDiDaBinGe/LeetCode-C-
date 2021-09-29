@@ -8,6 +8,10 @@ void print_list(vector<int>& nums){
         cout<<nums[i]<<" ";
     cout<<endl;
 }
+/*
+    外层是一个for循环
+    for循环中使用二分查找的思路
+*/
 vector<vector<int>> threeSum(vector<int>& nums) {
     vector<vector<int>> result={};
     if (nums.size()<3)
@@ -25,6 +29,7 @@ vector<vector<int>> threeSum(vector<int>& nums) {
             continue;
         while(left<right)
         {
+            // 利用二分查找的思想
             if (nums[i]+nums[left]+nums[right] == 0)
             {
                 vector<int> result_line;
@@ -32,6 +37,7 @@ vector<vector<int>> threeSum(vector<int>& nums) {
                 result_line.push_back(nums[left]);
                 result_line.push_back(nums[right]);
                 result.push_back(result_line);
+                // 防止重复的三元组
                 while(left<right&&nums[left]==nums[left+1])
                     left++;
                 while(left<right&&nums[right-1]==nums[right])
