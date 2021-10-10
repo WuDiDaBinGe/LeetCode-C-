@@ -27,3 +27,16 @@ ListNode* deleteDuplicates(ListNode* head) {
     tail_dump->next=nullptr;
     return dump.next;
 }
+ListNode* deleteDuplicates1(ListNode* head) {
+    if(head==nullptr) return head;
+    for (ListNode *prev=head,*cur=head->next; cur; cur=prev->next) {
+        if (prev->val == cur->val) {
+            prev->next = cur->next;
+            del cur;
+        }   
+        else {
+            prev = cur;
+        }
+    }
+    return head;
+}
