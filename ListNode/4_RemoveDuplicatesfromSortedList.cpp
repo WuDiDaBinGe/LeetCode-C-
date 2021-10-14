@@ -16,7 +16,6 @@ struct ListNode {
 ListNode* deleteDuplicates(ListNode* head) {
     ListNode dump(-200);
     ListNode* tail_dump = &dump;
-    ListNode* pre_dump = &dump;
     for (ListNode* cur = head; cur!=nullptr; cur=cur->next) {
         if(tail_dump->val != cur->val){
             tail_dump->next = cur;

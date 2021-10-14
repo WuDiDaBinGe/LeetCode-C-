@@ -10,6 +10,7 @@ struct ListNode {
      ListNode(int x) : val(x), next(nullptr) {}
      ListNode(int x, ListNode *next) : val(x), next(next) {}
 };
+/*头插法*/
 ListNode* reverseList(ListNode* head) {
      ListNode* res = new ListNode(-1);
      // 头插法
@@ -19,3 +20,22 @@ ListNode* reverseList(ListNode* head) {
      }
      return res->next;
 }
+/*
+     双指针
+     需要记录下cur 的下一个节点，
+     pre=cur
+     cur=temp
+*/
+ListNode* reverseList1(ListNode* head) {
+     if(head==nullptr||head->next==nullptr) return head;
+     ListNode* pre = nullptr;
+     ListNode* cur = head;
+     while (cur!=nullptr) {
+          ListNode* temp = cur->next;
+          cur->next = pre;
+          pre = cur;
+          cur = temp;
+     }
+     return pre;
+}
+/*递归法*/
