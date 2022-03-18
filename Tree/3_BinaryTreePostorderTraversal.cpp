@@ -1,0 +1,33 @@
+#include<iostream>
+#include<vector>
+#include<stack>
+using namespace std;
+struct TreeNode {
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode() : val(0), left(nullptr), right(nullptr) {}
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+    TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+};
+void postorder(TreeNode* root,vector<int> &res) {
+    if(root==nullptr) return;
+    postorder(root->left, res);
+    postorder(root->right, res);
+    res.push_back(root->val);
+}
+vector<int> postorderTraversal(TreeNode* root) {
+    vector<int> res;
+    postorder(root, res);
+    return res;
+}
+
+vecotr<int> postorderTraversal(TreeNode* root) {
+    vector<int> res;
+    stack<TreeNode* root> s;
+    TreeNode* p = root, *q=nullptr;
+}
+
+int main() {
+
+}
