@@ -2,5 +2,4 @@
 *.exe
 */*.exe
 /leetcode-tourail/*
-.vscode/*
-
+./.vscode
