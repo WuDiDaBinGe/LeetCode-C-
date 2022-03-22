@@ -28,6 +28,7 @@ int longestValidParentheses(string s) {
     return res;
 }
 //动态规划算法
+// .....)) 和 ......()
 int longestValidParentheses(string s) {
     int n = s.size();
     int res = INT8_MIN;
