@@ -4,7 +4,6 @@
 #include<algorithm>
 #include<queue>
 #define MAXN 205
-#define MAXM 200009
 using namespace std;
 //floyd 算法：多源最短路径
 // 注意最大数
@@ -15,6 +14,7 @@ void floyd(int cur, int n) {
     for(int i = 0; i < n; i++) {
         for(int j = 0; j < n; j++) {
             D[i][j] = min(D[i][j], D[i][cur]+D[cur][j]);
+            D[j][i] = D[i][j];
         }
     }
 }
@@ -29,7 +29,7 @@ int main() {
     // init
     for(int i = 0; i < N; i++) 
         for(int j = 0; j < N; j++) 
-            D[i][j] = inf;
+            D[i][j] = 1e9;
     
     for(int i = 0; i < N; i++) 
         D[i][i] = 0;
@@ -38,6 +38,7 @@ int main() {
         int f,e,d;
         cin>>f;cin>>e;cin>>d;
         D[f][e] = d;
+        D[e][f] = d;
     }
     // floyd algorithm
     int q; cin>>q;
@@ -51,7 +52,7 @@ int main() {
         }
         if(T[f] > t|| T[e] > t) cout<<-1<<endl;
         else{
-            if(D[f][e] == inf) cout<<-1<<endl;
+            if(D[f][e] == 1e9) cout<<-1<<endl;
             else cout<<D[f][e]<<endl;
         }
     }
