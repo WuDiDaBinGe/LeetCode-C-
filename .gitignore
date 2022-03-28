@@ -3,3 +3,4 @@
 */*.exe
 /leetcode-tourail/*
 ./.vscode
+./test.cpp
