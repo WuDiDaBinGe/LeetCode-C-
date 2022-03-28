@@ -3,7 +3,8 @@
 using namespace std;
 int main()
 {
-    vector<string> a = {"aaa", "bcb", "cdc"};
-    cout<<a.find("aaa")<<endl;
+    vector<vector<int>> a(10);
+    a[1].push_back(3);
+    cout<<a[1].size()<<endl;
     return 0;
 }
