@@ -75,7 +75,7 @@ ListNode* reverseKGroup(ListNode* head, int k) {
     翻转子链表函数：head为子链表的前一个节点
     [begin,end]是要翻转的子链表。使用双指针翻转子链表。
 */
-ListNode* reverList(ListNode*head,ListNode* begin,ListNode* end) {
+ListNode* reverList(ListNode*head, ListNode* begin, ListNode* end) {
     ListNode* pre=head;
     ListNode* cur=begin;
     ListNode* endnext = end->next;

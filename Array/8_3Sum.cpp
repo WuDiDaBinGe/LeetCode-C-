@@ -22,7 +22,7 @@ vector<vector<int>> threeSum(vector<int>& nums) {
     {
         // two point
         int left=i+1,right=nums.size()-1;
-        if(nums[i]>0)
+        if(nums[i] > 0)
             return result;
         // repeat element is only check the first element
         if(i>0 && nums[i]==nums[i-1])

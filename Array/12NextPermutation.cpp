@@ -13,7 +13,7 @@ void nextPermutation(vector<int>& nums) {
         //right to left find the first bigger num than nums[j-1]
         while (i>=0 && nums[j-1]>=nums[i])
             i--;
-        swap(nums[j-1],nums[i]);
+        swap(nums[j-1],nums [i]);
     }
     reverse(nums.begin()+j, nums.end());
 }
