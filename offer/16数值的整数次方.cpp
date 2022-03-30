@@ -32,3 +32,17 @@ public:
         } 
     }
 };
+// 正确的做法
+class Solution {
+public:
+    double pows(double x, int n) {
+        if(n == 0) return 1;
+        double v = pows(x, n / 2);
+        if(n % 2 == 0) return v * v;
+        else return v * v * x;
+    }
+    double myPow(double x, int n) {
+        if(n < 0) return 1.0 / pows(x, n);
+        return pows(x, n);
+    }
+};
