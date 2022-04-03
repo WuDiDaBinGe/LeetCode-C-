@@ -24,6 +24,7 @@ int strStr(string haystack, string needle) {
 /*
     string match problem
     using kmp algorithm
+    next数组向右移动一位的
 */
 // compute next[] table
 void computeNext(string pattern, vector<int> &nexttable){
@@ -31,9 +32,10 @@ void computeNext(string pattern, vector<int> &nexttable){
     int j = -1;
     int m = pattern.length();
     nexttable[0] = j;
+    // i 表示后缀末尾 j表示目前最大前缀末尾或者说最大前缀的长度
     for (i = 1;i < m; i++) {
         while (j > -1 && pattern[j+1] != pattern[i])
-            j = nexttable[j];
+             j = nexttable[j];
         if (pattern[j+1] == pattern[i])
             j++;
         nexttable[i] = j;
@@ -59,11 +61,47 @@ int kmpMatch(string text,string pattern) {
             j++;
         if (j==m-1) {
             return i-j;
+        }  
+    }
+    return -1;
+}
+/*
+    原始next数组的做法
+*/
+void genNext(vector<int>& next, string p) {
+    // 双指针
+    int n = p.size();
+    int j = 0; //表示当前最长的子前缀的长度
+    next[0] = 0;
+    // i 表示后缀结尾
+    for(int i = 1; i < n; i++) {
+        while(j > 0 && p[j] != p[i]) {
+            j = next[j - 1];
         }
+        if(p[i] == p[j])
+            j++;
+        next[i] = j;
+    }
+}
+int kmpCore(string s, string p) {
+    int n = s.size();
+    int m = p.size();
+    if(m > n) return -1;
+    vector<int> next(m, 0);
+    genNext(next, p);
+    int j = 0;
+    for(int i = 0; i < n; i++) {
+        while(j > 0 && p[j] != s[i]) {
+            j = next[j - 1];
+        }
+        if(p[j] == s[i])
+            j++;
+        if(j == m)
+            return (i - m + 1);
     }
     return -1;
 }
 int main(){
-    cout<<kmpMatch("mississippi" ,"issipi");
+    cout<<kmpCore("mississipi" ,"issipi");
     return 0;
 }
