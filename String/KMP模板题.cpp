@@ -4,6 +4,7 @@ void genNext(string p, vector<int>& next) {
     int n = p.size();
     int j = 0; // 表示当前最大的子前缀长度
     next[0] = 0;
+    //i表示表示后缀的结尾
     for(int i = 1; i < n ; i++) {
         while(j > 0 && p[j] != p[i]) {
             j = next[j - 1];
