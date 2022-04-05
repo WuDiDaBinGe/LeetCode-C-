@@ -22,7 +22,7 @@ Node* copyRandomList(Node* head) {
         cur->next = dupNode;
         cur = dupNode->next;
     }
-    // 将复制节点的random 指针 指向其原节点随即指针指向元素的复制元素(即其下一个元素)
+    // 将复制节点的random 指针 指向其原节点 随即指针指向元素的复制元素(即其下一个元素)
     for (Node* cur=head;cur!=nullptr;cur=cur->next->next) {
         if (cur->random==nullptr) {
             cur->next->random = nullptr;

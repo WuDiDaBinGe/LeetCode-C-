@@ -33,3 +33,33 @@ bool verify(vector<int>& postorder, int left, int right) {
     return left_flag && right_flag;
 }
 // 使用递归构建二叉搜索树的方法
+bool verifyPostorder2(vector<int>& postorder) {
+    int n = postorder.size();
+    if(n <= 1) return true;
+    build(postorder, INT_MIN, INT_MAX);
+    return postorder.size() == 0;
+}
+void build(vector<int>& postorder, int minValue, int maxValue) {
+    if(postorder.size() == 0) return;
+    int n = postorder.size();
+    int val = postorder[n - 1];
+    if(val < minValue || val > maxValue) return;
+    postorder.pop_back();
+    build(postorder, val + 1, maxValue);
+    build(postorder, minValue, val - 1);
+}
+// 使用单调栈的方式
+bool verifyPostorder(vector<int>& postorder) {
+    stack<int> stk;
+    stk.push(INT_MIN);
+    int root = INT_MAX;
+    for(int i = postorder.size() - 1; i >= 0; i--) {
+        if(postorder[i] > root) return false;
+        while(!stk.empty() && stk.top() > postorder[i]) {
+            root = stk.top();
+            stk.pop();
+        }
+        stk.push(postorder[i]);
+    }
+    return true;
+}
