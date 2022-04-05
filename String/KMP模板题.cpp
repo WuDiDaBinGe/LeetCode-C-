@@ -6,6 +6,7 @@ void genNext(string p, vector<int>& next) {
     next[0] = 0;
     //i表示表示后缀的结尾
     for(int i = 1; i < n ; i++) {
+        // 不相等时
         while(j > 0 && p[j] != p[i]) {
             j = next[j - 1];
         }

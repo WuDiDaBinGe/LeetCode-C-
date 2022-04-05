@@ -4,7 +4,9 @@ using namespace std;
 // C++ Version
 //https://oi-wiki.org/string/z-func/
 // 效率提升
-// 1. ++i 
+// 1. ++i 不用i++
+// 2. 数据量很大时用数组
+// 3.scanf printf比cin 和 cout快
 int extds[MAXNUM];
 int zfuns[MAXNUM];
 char a[MAXNUM],b[MAXNUM];
