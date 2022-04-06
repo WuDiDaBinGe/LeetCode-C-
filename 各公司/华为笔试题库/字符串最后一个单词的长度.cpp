@@ -9,6 +9,7 @@ int main() {
     string x;
     stringstream ss(line);
     while(ss>>x);
+    //while(getline(ss, x, ','));
     cout<<x.size()<<endl;
     return 0;
 }
