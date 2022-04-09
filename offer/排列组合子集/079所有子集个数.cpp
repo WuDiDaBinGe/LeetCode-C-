@@ -17,7 +17,6 @@ void dfs(int index, vector<int>& nums) {
     path.pop_back();
     // 不选
     dfs(index + 1, nums);
-
 }
 vector<vector<int>> subsets(vector<int>& nums) {
     dfs(0, nums);
