@@ -48,17 +48,20 @@ void exkmp() {
 }
 
 int main() {
-    scanf("%s%s", s, p);
-    pl = strlen(p);
-    sl = strlen(s);
-    exkmp();
-    long long a0 = 0, a1 = 0;
-    for (int i = 0; i < pl; ++i) {
-        a0 ^= 1LL * (i + 1) * (z[i] + 1);
-    }
-    for (int i = 0; i < sl; ++i) {
-        a1 ^= 1LL * (i + 1) * (ext[i] + 1);
-    }
-    printf("%lld\n%lld\n", a0, a1);
+    // scanf("%s%s", s, p);
+    // pl = strlen(p);
+    // sl = strlen(s);
+    // exkmp();
+    // long long a0 = 0, a1 = 0;
+    // for (int i = 0; i < pl; ++i) {
+    //     a0 ^= 1LL * (i + 1) * (z[i] + 1);
+    // }
+    // for (int i = 0; i < sl; ++i) {
+    //     a1 ^= 1LL * (i + 1) * (ext[i] + 1);
+    // }
+    // printf("%lld\n%lld\n", a0, a1);
+    char str2[9];
+    char* str1 = "987654321";
+    strcpy_s(str2, str1);
     return 0;
 }
