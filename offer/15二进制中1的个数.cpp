@@ -3,6 +3,7 @@
 #include<cstdio>
 #include<cmath>
 using namespace std;
+// 移位原数
 int hammingWeight(uint32_t n) {
     int res = 0;
     while(n) {
@@ -14,6 +15,7 @@ int hammingWeight(uint32_t n) {
     }
     return res;
 }
+// 移位flag检查是否有1
 int hammingWeight2(uint32_t n) {
     int res = 0;
     uint32_t flag = 1;
