@@ -2,7 +2,7 @@
 using namespace std;
 class MinStack {
 public:
-    /** initialize your data structure here. */
+    /** 使用一个辅助栈记录目前的栈的最小值 */
     stack<int> data, helper;
     MinStack() {
         //先放入一个很大的元素 防止 push的时候报错

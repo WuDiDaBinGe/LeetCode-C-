@@ -14,7 +14,7 @@ bool verifyPostorder(vector<int>& postorder) {
 }
 bool verify(vector<int>& postorder, int left, int right) {
     if(left >= right) return true;
-    //寻找左子树 和 右子树 right为此时的跟
+    //寻找左子树 和 右子树 right为此时的根
     int i = left;
     while(i < right && postorder[i] < postorder[right]) {
         i++;

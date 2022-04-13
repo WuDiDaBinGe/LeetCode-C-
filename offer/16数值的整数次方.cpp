@@ -15,7 +15,6 @@ public:
             else {
                 res = 1.0 / mypow(x, -n);
             }
-            
         }  
         if(n > 0) res =  mypow(x, n);
         return res;
@@ -32,7 +31,7 @@ public:
         } 
     }
 };
-// 正确的做法
+// 正确的做法， 不用考虑n的正负。其实实际上是分治的次数，无需关注正负
 class Solution {
 public:
     double pows(double x, int n) {

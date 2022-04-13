@@ -3,6 +3,26 @@
 #include<cstdio>
 #include<cmath>
 using namespace std;
+#define MOD 1000000007;
+//快速幂两种写法
+// 循环取余
+int YuXunHuan(int base, int n) {
+    int res = 1; 
+    for(int i = 0; i < n; i++) {
+        res = (res * base) % MOD;
+    }
+    return res;
+}
+// 快速幂取余
+int QuickyMI(int base, int n) {
+    int res = 1;
+    while (n > 0) {
+        if(n & 1) res = (res * base)  % MOD;
+        base = (base * base) % MOD;
+        n = n / 2;
+    }
+    return res;
+}
 // 贪心
 // 使用循环取余 或者 快速幂取余
 int cuttingRope(int n) {
@@ -12,11 +32,11 @@ int cuttingRope(int n) {
         return 1;
     if(n == 3)
         return 2;
-    int p = 1000000007;
+    
     int t3 = n / 3;
     long long res = 1;
     for(int i = 1; i < t3; i++) {
-        res = (res * 3) % p; 
+        res = (res * 3) % 1000000007; 
     }
     if(n % 3 == 1) 
         res = (res * 4) % 1000000007;
