@@ -48,8 +48,8 @@ public:
 class MedianFinder1 {
 public:
     /** 使用两个堆来实现中位数 **/
-    priority_queue<int> smallBigHeap;
-    priority_queue<int, vector<int>, greater<int>> bigSmallHeap;
+    priority_queue<int> smallBigHeap;                               // 大顶堆
+    priority_queue<int, vector<int>, greater<int>> bigSmallHeap;    // 小顶堆
     MedianFinder1() {
 
     }

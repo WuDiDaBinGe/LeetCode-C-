@@ -14,22 +14,25 @@ vector<int> getLeastNumbers(vector<int>& arr, int k) {
     return res;
 }
 // 快速排序
+// 还有BUG 需要调整
 vector<int> getLeastNumbers1(vector<int>& arr, int k) {
     int n = arr.size();
     int left = 0, right = n - 1;
+    int target = n - k;
     while(left < right) {
         int flag = arr[rand() % (right - left + 1) + left];
         vector<int> border = partition(left, right, arr, flag);
-        if(border[0] <= n - k && border[1] >= n - k) {
+        // 这里不等target不能等于左边界 左边界可能不是最大的。
+        if(border[0] < target && border[1] >= target) {
             break;
-        } else if(n - k < border[0]) {
-            right = left;
-        } else if(n - k > border[1]) {
-            left = right;
+        } else if(target <= border[0]) {
+            right = border[0];
+        } else if(target >= border[1]) {
+            left = border[1];
         }
     }
     vector<int> res;
-    for(int i = arr.size(); i >= n - k; i--) {
+    for(int i = arr.size() - 1; i >= target; i--) {
         res.push_back(arr[i]);
     }
     return res;

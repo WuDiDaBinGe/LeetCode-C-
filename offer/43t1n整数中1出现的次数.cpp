@@ -29,18 +29,42 @@ int countDigitOne1(int num) {
         if(i == nstr.size() - 1) {
             res += n  * a1;
         } else{
-            res += (n - 1) * a1;
-            res += afterNum + 1;
+            if(nstr[i] == '0') {
+                res += n * a1;
+            } else {
+                res += (n - 1) * a1;
+                // 目前有多少
+                if(nstr[i] > '1') res += a1;
+                else if(nstr[i] == '1') {
+                    afterNum = stoi(nstr.substr(i + 1));
+                    res += (afterNum + 1);
+                }
+            }
         }
         d *= 10;
         a1 *= 10;
-        afterNum = stoi(nstr.substr(i));
     }
     return res;
 }
+//递归方法
+int countDigitOne2(int n) {
+    if(n == 0) return 0;
+    if(n == 1) return 1;
+    string strn = to_string(n);
+    int top = strn[0] - '0';
+    int digit = pow(10, strn.size() -  1);
+    int remain = n % digit;
+    if(top == 1){
+        // 后面位置上的1 （前两项） + 最高位置上的1的个数(最后一项)
+        return countDigitOne2(digit - 1) + countDigitOne2(remain) + (remain + 1);  
+    } else {
+        return countDigitOne2(digit - 1) * top  + countDigitOne2(remain) + digit;
+    }
+
+}
 int main() {
-    cout<<countDigitOne(100)<<endl;
+    cout<<countDigitOne2(824883294)<<endl;
     cout<<"********"<<endl;
-    cout<<countDigitOne1(100)<<endl;
+    cout<<countDigitOne1(824883294)<<endl;
     return 0;
 }
