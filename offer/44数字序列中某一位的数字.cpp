@@ -29,6 +29,16 @@ int help(int n, int digits) {
 int findNthDigit(int n) {
     return help(n, 1);
 }
+// 另一种简单思路 把每一位数字字符都补成目前位数的数组宽度
+// 补位之后返回那么返回下标k//i的数 的 第 k%i 位即可
+int findNthDigit1(int n) {
+    for(int i = 1; ; i++) {
+        if(n < i * pow(10, i)) {
+            return to_string(n / i)[n % i] - '0';
+        }
+        n += pow(10, i);
+    }
+}
 int main() {
     cout<<findNthDigit(13)<<endl;
     cout<<findNthDigit(19)<<endl;
