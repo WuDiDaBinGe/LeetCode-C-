@@ -48,7 +48,7 @@ string minNumber(vector<int>& nums) {
     return res;
 }
 bool cmp(string a, string b) {
-    return stoi(a + b) < stoi(b + a);
+    return !isValidSQ(a + b, b + a);
 }
 string minNumber1(vector<int>& nums) {
     vector<string> snums;
