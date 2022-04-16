@@ -63,5 +63,6 @@ int main() {
     char str2[9];
     char* str1 = "987654321";
     strcpy_s(str2, str1);
+    cout<<"yxb zuishuai!"<<endl;
     return 0;
 }
