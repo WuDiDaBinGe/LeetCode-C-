@@ -40,13 +40,48 @@ int reversePairs(vector<int>& nums) {
     return mergeSort(nums, 0, n - 1);
 }
 // 离散化树状数组
-
-int main() {
-    vector<int> nums = {7, 5,  6, 4};
-    cout<<reversePairs(nums)<<endl;
-    cout<<endl;
-    for(int i = 0; i < nums.size(); i++) {
-        cout<<nums[i]<<" ";
+struct BIL{
+    vector<int> tree;
+    BIL(int n) {
+        tree = vector<int>(n + 1);
     }
+    int lowbit(int x) {
+        return x & (-x);
+    }
+    void add(int index, int k) {
+        while (index <= tree.size()) {
+            tree[index] += k;
+            index += lowbit(index);
+        }
+    }
+    int ask(int index) {
+        int res = 0;
+        while(index > 0) {
+            res += tree[index];
+            index -= lowbit(index);
+        }
+        return res;
+    }
+};
+int reversePairs1(vector<int>& nums) {
+    int n = nums.size();
+    vector<int> temp = nums;
+    sort(temp.begin(), temp.end());
+    for(int& a:nums) {
+        a = lower_bound(temp.begin(), temp.end(), a) - temp.begin() + 1;
+    }
+    BIL bil(n);
+    int ans = 0;
+    for(int i = n - 1; i >= 0; --i) {
+        ans += bil.ask(nums[i] - 1);
+        bil.add(nums[i], 1);
+    }
+    return ans;
+}
+int main() {
+    vector<int> nums = {2,4,3,5,1};
+    cout<<reversePairs(nums)<<endl;
+    vector<int> nums1 = {2,4,3,5,1};
+    cout<<reversePairs1(nums1)<<endl;
     return 0;
 }
