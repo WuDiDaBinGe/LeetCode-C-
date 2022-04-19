@@ -32,11 +32,13 @@ int findNthDigit(int n) {
 // 另一种简单思路 把每一位数字字符都补成目前位数的数组宽度
 // 补位之后返回那么返回下标k//i的数 的 第 k%i 位即可
 int findNthDigit1(int n) {
-    for(int i = 1; ; i++) {
-        if(n < i * pow(10, i)) {
-            return to_string(n / i)[n % i] - '0';
+    long long n_ = n;
+    for(long long i = 1; ; i++) {
+        if(n_ < i * pow(10, i)) {
+            return to_string(n_ / i)[n_ % i] - '0';
         }
-        n += pow(10, i);
+        // 补齐后移
+        n_ += pow(10, i);
     }
 }
 int main() {
