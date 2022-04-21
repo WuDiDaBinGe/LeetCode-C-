@@ -14,41 +14,9 @@ bool isValidSQ(string a, string b) {
     }
     return true;
 }
-void dfs(int index, vector<int>& nums) {
-    cout<<index<<endl;
-    // valid border 
-    if(index == nums.size()) {
-        if(res == "") res = path;
-        else if(res != ""){
-            if(isValidSQ(res, path)) {
-                res = path;
-            }
-        }
-        return ;
-    }
-    // purne
-    
-    // make choice
-    for(int i = 0; i < nums.size(); i++) {
-        if(visited[i]) continue;
-        visited[i] = true;
-        string n = to_string(nums[i]);
-        int size = n.size();
-        path += n;
-        dfs(index + 1, nums);
-        visited[i] = false;
-        while (size--) {
-            path.pop_back();
-        }
-    }
-}
-string minNumber(vector<int>& nums) {
-    visited = vector<bool>(nums.size(), false);
-    dfs(0, nums);
-    return res;
-}
+// 使用内置排序函数
 bool cmp(string a, string b) {
-    return !isValidSQ(a + b, b + a);
+    return a + b < b + a;
 }
 string minNumber1(vector<int>& nums) {
     vector<string> snums;
@@ -61,8 +29,32 @@ string minNumber1(vector<int>& nums) {
     }
     return res;
 }
+void quickSort(vector<string>& strs, int left, int right) {
+    if(left >= right) return;
+    int i = left, j = right;
+    while(i < j) {
+        while(strs[j] + strs[left] >= strs[left] + strs[j] && i < j) j--;
+        while(strs[i] + strs[left] <= strs[left] + strs[i] && i < j) i++;
+        swap(strs[i], strs[j]);
+    }
+    swap(strs[left], strs[i]);
+    quickSort(strs, left, i - 1);
+    quickSort(strs, i + 1, right);
+    return;
+}
+// 使用快速排序
+string minNumber2(vector<int>& nums) {
+    vector<string> str_nums;
+    for(int i = 0; i < nums.size(); i++)
+        str_nums.push_back(to_string(nums[i]));
+    quickSort(str_nums, 0, str_nums.size() - 1);
+    string res = "";
+    for(int i = 0; i < str_nums.size(); i++)
+        res += str_nums[i];
+    return res;
+}
 int main() {
     vector<int> nums = {0,9,8,7,6,5,4,3,2,1};
-    cout<<minNumber1(nums)<<endl;
+    cout<<minNumber2(nums)<<endl;
     return 0;
 }

@@ -39,7 +39,7 @@ int reversePairs(vector<int>& nums) {
     if(n == 1 || n == 0) return 0; 
     return mergeSort(nums, 0, n - 1);
 }
-// 离散化树状数组
+// 离散化 + 树状数组
 struct BIL{
     vector<int> tree;
     BIL(int n) {
@@ -67,6 +67,7 @@ int reversePairs1(vector<int>& nums) {
     int n = nums.size();
     vector<int> temp = nums;
     sort(temp.begin(), temp.end());
+    // 将原数组转化成排名的形式
     for(int& a:nums) {
         a = lower_bound(temp.begin(), temp.end(), a) - temp.begin() + 1;
     }

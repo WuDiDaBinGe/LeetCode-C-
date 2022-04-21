@@ -24,19 +24,21 @@ int kthLargest(TreeNode* root, int k) {
     return -1;
 }
 int ak, res = 0;
-// 递归
-void rinOrder(TreeNode* root) {
-    if(root == nullptr) return;
-    rinOrder(root->right);
-    if(k == 0) return;
-    k--;
-    if(k == 0) res = root->val;
-    rinOrder(root->left);
-}
 int kthLargest(TreeNode* root, int k) {
     ak = k;
-    rinOrder(root);
+    inOrder(root);
     return res;
+}
+void inOrder(TreeNode* root) {
+    if(root == nullptr) return;
+    inOrder(root->right);
+    if(ak == 0) return ;
+    ak--;
+    if(ak == 0) {
+        res = root->val;
+        return;
+    } 
+    inOrder(root->left);
 }
 int main() {
     return 0;

@@ -7,7 +7,6 @@ int help(int n, int digits) {
     // 求该数位的一共有多少长度
     long long unit = digits * pow(10, digits - 1);
     long long length = unit * (digits == 1 ? 10 : 9);
-    int res = -1;
     // cout<<n<<" "<<digits<<" "<<length<<endl;
     // 在digits位数 组成的范围内
     if(n <= length - 1) {
@@ -19,6 +18,27 @@ int help(int n, int digits) {
             string count = to_string(n / digits);
             return count[mod - 1] - '0';
         }
+    }
+    // 不再范围内继续递归 
+    else{
+        n = n - length;
+        return help(n, digits + 1);
+    }
+}
+// 优化递归
+int help(int n, int digits) {
+    if(n <= 9 && digits == 1) return n;
+    // 求该数位的一共有多少长度
+    long long unit = digits * pow(10, digits - 1);
+    long long length = unit * (digits == 1 ? 10 : 9);
+    // cout<<n<<" "<<digits<<" "<<length<<endl;
+    // 在digits位数 组成的范围内
+    if(n <= length - 1) {
+        int num = n / digits;
+        int mod = n % digits;
+        num += pow(10, digits - 1);
+        string count = to_string(num);
+        return count[mod] - '0';
     }
     // 不再范围内继续递归 
     else{
