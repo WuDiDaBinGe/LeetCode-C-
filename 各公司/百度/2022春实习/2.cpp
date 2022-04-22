@@ -13,7 +13,8 @@ void dfs(int index, int suma, int sumd, int sumad) {
         return ;
     }
     // make choice
-    if(sumad < 0) return;
+    if(sumad > 0 && peoples[index][0] < 0) return;
+    // 这里还可以剪枝
     // choose
     dfs(index + 1, suma + peoples[index][1], sumd + peoples[index][2], sumad + peoples[index][0]);
     // no choose

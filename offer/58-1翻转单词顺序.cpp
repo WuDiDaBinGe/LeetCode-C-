@@ -16,13 +16,15 @@ string reverseWords(string s) {
         strs.push_back(t);
     }
     string res = "";
-    for(int i = strs.size() - 1; i >=0 ; --i) {
+    for(int i = strs.size() - 1; i >= 0 ; --i) {
         res += strs[i];
         if(i != 0) res += " ";
     }
     return res;
 }
-// 使用双
+// 使用栈的方法
+
+
 int main() {
     cout<<reverseWords("a good   example");
     return 0;
