@@ -21,6 +21,7 @@ bool isBalanced(TreeNode* root) {
     return abs(left - right) <= 1 && flag? true : false;
 }
 // 优化 O(n)
+// 以root为根的子树是否为平衡二叉树，不是 返回 -1 否则返回树的深度
 int maxDepth1(TreeNode* root) {
     if(root == nullptr) return 0;
     int left = maxDepth(root->left);
@@ -28,7 +29,7 @@ int maxDepth1(TreeNode* root) {
     if(left == -1 || right == -1 || abs(left - right) > 1)
         return -1;
     else
-        return max(left, right) + 1
+        return max(left, right) + 1;
 }
 bool isBalanced1(TreeNode* root) {
     if(root == nullptr) return true;

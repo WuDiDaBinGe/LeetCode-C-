@@ -5,6 +5,7 @@ string reverseWords(string s) {
     string t;
     vector<string> strs;
     while (ss>>t) {
+        // 去除多余的空格
         for(int i = 0; i < t.size(); i++) {
             if(t[i] == ' ') continue;
             else {
