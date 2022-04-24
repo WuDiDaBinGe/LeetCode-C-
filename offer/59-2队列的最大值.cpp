@@ -6,7 +6,6 @@ public:
     queue<int> data;
     deque<int> help;
     MaxQueue() {
-
     }
     
     int max_value() {

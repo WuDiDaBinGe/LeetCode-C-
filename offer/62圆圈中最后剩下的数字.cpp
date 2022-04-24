@@ -1,5 +1,6 @@
 #include<bits/stdc++.h>
 using namespace std;
+// 约瑟夫环的问题
 // dp
 int lastRemaining(int n, int m) {
     int dp = 0;
@@ -8,7 +9,6 @@ int lastRemaining(int n, int m) {
     }
     return dp;
 }
-// 约瑟夫环的问题
 // 模拟超时 
 int lastRemaining(int n, int m) {
     vector<int> nums;
