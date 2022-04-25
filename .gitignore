@@ -1,0 +1,6 @@
+*.zip
+*.exe
+*/*.exe
+/leetcode-tourail/*
+./.vscode
+./test.cpp
