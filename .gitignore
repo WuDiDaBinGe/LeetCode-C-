@@ -2,5 +2,5 @@
 *.exe
 */*.exe
 /leetcode-tourail/*
-./.vscode
+./.vscode/*
 ./test.cpp
