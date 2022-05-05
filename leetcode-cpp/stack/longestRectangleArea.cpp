@@ -8,7 +8,7 @@ public:
     int largestRectangleArea(vector<int>& heights) {
         int res = INT8_MIN;
         int n  = heights.size();
-        // 先将0push进去 保证所有的元素均能出栈
+        // 先将0 push进去 保证所有的元素均能出栈
         heights.push_back(0);
         stack<int> stk;
         for(int i = 0; i <= n; i++) {
