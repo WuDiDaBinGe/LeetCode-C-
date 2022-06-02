@@ -13,7 +13,7 @@ public:
         diff[end]--;
         int sum = 0;
         auto it = diff.begin();
-        // 查询[start, end)区间内是否有等于三的sum
+        // 查询[start, end)区间内是否有等于1的sum
         while(it != diff.end() && it->first < end) {
             sum += it->second;
             if(sum > 1) {

@@ -26,12 +26,12 @@ public:
         return path.size() == numCourses ? path : vector<int>();
     }
 };
-// 使用bfs
+// 使用dfs
 class Solution {
 public:
     vector<vector<int>> G;
     vector<int> result;
-    // 0 表示未开始搜索 1表示搜索中 2表示搜索完毕
+    // 0表示未开始搜索 1表示搜索中 2表示搜索完毕
     vector<int> visited;
     bool cycle = false;
     void dfs(int index) {

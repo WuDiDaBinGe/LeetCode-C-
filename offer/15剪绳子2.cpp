@@ -19,7 +19,18 @@ int QuickyMI(int base, int n) {
     while (n > 0) {
         if(n & 1) res = (res * base)  % MOD;
         base = (base * base) % MOD;
-        n = n / 2;
+        n = n / 2;  // n = n >> 1;
+    }
+    return res;
+}
+// 快速乘取余
+// a * b 
+int QuickMul(int a, int b) {
+    int res = 0;
+    while(b) {
+        if(b & 1) res = (res + a) % MOD;
+        a = a * 2 % MOD;
+        b = b >> 1;
     }
     return res;
 }
@@ -73,7 +84,8 @@ int cuttingRope2(int n) {
     return (int)res;  
 }
 int main() {
-    cout<<cuttingRope(1000)<<endl;
-    cout<<cuttingRope2(1000)<<endl;
+    // cout<<cuttingRope(1000)<<endl;
+    // cout<<cuttingRope2(1000)<<endl;
+    cout<<QuickMul(-4020, 8)<<endl;
     return 0;
 }
