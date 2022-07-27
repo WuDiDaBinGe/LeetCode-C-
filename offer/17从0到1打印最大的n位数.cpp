@@ -45,6 +45,6 @@ vector<int> printNumbers2(int n) {
 }
 
 int main(){
-    printNumbers2(2);
+    printNumbers2(3);
     return 0;
 }

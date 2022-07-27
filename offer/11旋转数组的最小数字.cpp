@@ -18,9 +18,11 @@ public:
                 start = mid + 1;
             }
             else if(numbers[mid] < numbers[end]) {
+                // 有可能是最小的值
                 end = mid;
             }
             else {
+                // 注意在与中点相等时的情况
                 end--;
             }
             //cout<<start<<" "<<end<<endl;

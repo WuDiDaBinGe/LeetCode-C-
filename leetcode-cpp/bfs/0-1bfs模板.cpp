@@ -33,3 +33,41 @@ public:
         return dist[n-1][m-1];   //返回结果。
     }
 };
+class Solution1 {
+public:
+    int dirs[4][2] = {{0, 1}, {1, 0}};
+    // 使用广度优先搜索
+    int movingCount(int m, int n, int k) {
+        if(k == 0) return 1;
+        queue<pair<int, int>> q;
+        vector<vector<bool>> visited(m, vector<bool>(n, false));
+        int ans = 0;
+        q.emplace(0, 0);
+        while(!q.empty()) {
+            auto poi = q.front(); q.pop();
+            int x = poi.first, y = poi.second;
+            if(visited[x][y]) continue;
+            visited[x][y] = true;
+            ans++;
+            for(int i = 0; i < 2; ++i) {
+                int nx = x + dirs[i][0], ny = y + dirs[i][1];
+                if(nx < 0 || nx >= m || ny < 0 || ny >=n || check(nx, ny) > k) continue;
+                q.emplace(nx, ny);
+            }
+        } 
+        return ans;
+    }
+    int check(int x, int y) {
+        int res = 0;
+        while(x) {
+            res += x % 10;
+            x /= 10;
+        }
+        while(y) {
+            res += y % 10;
+            y /= 10;
+        }
+        return res;
+    }
+    
+};
