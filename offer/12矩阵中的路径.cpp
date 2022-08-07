@@ -25,7 +25,6 @@ public:
         
         path.push_back(map[x][y]);
         visited[x][y] = true;
-        cout<<x<<" "<<y<<" "<<index<<" "<<path<<endl;
         // valid
         if(index == word.size() - 1) {
             //cout<<path<<endl;
