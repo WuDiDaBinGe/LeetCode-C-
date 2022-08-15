@@ -22,7 +22,6 @@ public:
     bool dfs(int x, int y, int index, string word, vector<vector<char>>& map) {
         // border
         if(x < 0 || x >= n || y < 0 || y >= m || map[x][y] != word[index] || visited[x][y] ) return false;
-        
         path.push_back(map[x][y]);
         visited[x][y] = true;
         // valid
