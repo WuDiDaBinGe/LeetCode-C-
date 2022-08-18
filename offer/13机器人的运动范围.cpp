@@ -1,5 +1,6 @@
 #include<iostream>
 #include<vector>
+#include<queue>
 using namespace std;
 class Solution {
 public:
@@ -28,6 +29,44 @@ public:
         while(y) {
             res += y % 10;
             y = y / 10;
+        }
+        return res;
+    }
+};
+
+// bfs
+class Solution {
+public:
+    int dirs[4][2] = {{0, 1}, {1, 0}};
+    int bitssum(int x, int y){
+        int sum = 0;
+        while(x) {
+            sum += x % 10;
+            x = x / 10;
+        }
+        while(y) {
+            sum += y % 10;
+            y = y / 10;
+        }
+        return sum;
+    }
+    int movingCount(int threshold, int rows, int cols) {
+        int res = 0;
+        queue<pair<int, int>> q;
+        vector<vector<bool>> visited(rows, vector<bool>(cols));
+        q.push({0, 0});
+        visited[0][0] = true;
+        while(!q.empty()){
+            auto pos = q.front();q.pop();
+            int x = pos.first, y = pos.second;
+            res++;
+            for(int i = 0; i < 4; ++i) {
+                int nx = x + dirs[i][0], ny = y + dirs[i][1];
+                if(nx < 0 || nx >= rows || ny < 0 || ny >= cols || bitssum(nx, ny) > threshold || visited[nx][ny]) continue;
+                q.push({nx, ny});
+                // 看frontier中是否有重复
+                visited[nx][ny] = true;
+            }
         }
         return res;
     }
