@@ -48,7 +48,8 @@ void build(vector<int>& postorder, int minValue, int maxValue) {
     build(postorder, val + 1, maxValue);
     build(postorder, minValue, val - 1);
 }
-// 使用单调栈的方式
+// 使用单调栈的方式 维护一个从栈底到栈顶递增的单调栈
+// https://leetcode.cn/problems/er-cha-sou-suo-shu-de-hou-xu-bian-li-xu-lie-lcof/solution/by-gahing-qk9k/
 bool verifyPostorder(vector<int>& postorder) {
     stack<int> stk;
     stk.push(INT_MIN);

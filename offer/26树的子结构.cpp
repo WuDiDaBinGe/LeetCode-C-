@@ -13,6 +13,7 @@ bool isSubStructure(TreeNode* A, TreeNode* B) {
 }
 //包含：以A为根的数是否包含B（必须从A开始）
 bool iscontain(TreeNode* A, TreeNode* B){
+    // 注意判断条件 B nullptr A ！= nullptr这种也要返回True 
     if(B == NULL)
         return true;
     if(A == NULL || A->val != B->val)

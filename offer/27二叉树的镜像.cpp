@@ -5,7 +5,12 @@ struct TreeNode{
     TreeNode* left, *right;
     TreeNode(int x): val(x), left(nullptr), right(nullptr){}
 };
-// 递归表示
+// 1、特判：如果pRoot为空，返回空
+// 2、交换左右子树
+// 3、把pRoot的左子树放到Mirror中镜像一下
+// 4、把pRoot的右子树放到Mirror中镜像一下
+// 5、返回根节点root
+// 递归表示 从下到上的方式
 TreeNode* mirrorTree(TreeNode* root) {
     if(root == nullptr) return nullptr;
     TreeNode* l, *r;
@@ -15,7 +20,7 @@ TreeNode* mirrorTree(TreeNode* root) {
     root->right = r;
     return root;
 }
-// 使用栈
+// 使用栈 从上到下的方式
 TreeNode* mirrorTree2(TreeNode* root) {
     if(root == nullptr) return nullptr;
     stack<TreeNode*> st;
@@ -29,7 +34,7 @@ TreeNode* mirrorTree2(TreeNode* root) {
     }
     return root;
 }
-// 使用队列
+// 使用队列 从上到下的方式
 TreeNode* mirrorTree3(TreeNode* root) {
     if(root == nullptr) return nullptr;
     queue<TreeNode*> q;
