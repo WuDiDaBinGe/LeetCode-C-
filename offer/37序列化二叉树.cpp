@@ -110,4 +110,105 @@ int main() {
     cout<<serialize1(root)<<endl;
     return 0;
 }
-
+// 使用char*的版本
+class Solution {
+public:
+    char* Serialize(TreeNode *root) {    
+        string s;
+        queue<TreeNode*> q;
+        q.push(root);
+        while(!q.empty()) {
+            TreeNode* cur = q.front(); q.pop();
+            if(cur) {
+                s += to_string(cur->val);
+                s += ',';
+                q.push(cur->left);
+                q.push(cur->right);
+            } else{
+                s += "#";
+                s += ',';
+            }
+        }
+        s.pop_back();
+        char* res = new char[s.size() + 1];
+        strcpy(res, s.c_str());
+        return res;
+    }
+    TreeNode* Deserialize(char *str) {
+        string ds = str;
+//         cout<<ds<<endl;
+        stringstream ss(ds);
+        vector<string> nums;
+        string temp;
+        while(getline(ss, temp, ',')) {
+            nums.push_back(temp);
+        }
+        int cur = 0;
+        if(nums[cur] == "#") return nullptr;
+        TreeNode* root = new TreeNode(atoi(nums[cur].c_str()));
+        cur++;
+        queue<TreeNode*> q;
+        q.push(root);
+        while(!q.empty()) {
+            TreeNode* curRoot = q.front(); q.pop();
+            if(curRoot == nullptr) continue;
+            if(nums[cur] == "#") curRoot->left = nullptr;
+            else {
+                curRoot->left = new TreeNode(stoi(nums[cur]));
+                q.push(curRoot->left);
+            }
+            
+            cur++;
+            if(nums[cur] == "#") curRoot->right = nullptr;
+            else {
+                curRoot->right = new TreeNode(stoi(nums[cur]));
+                q.push(curRoot->right);
+            }
+             cur++;
+        }
+        return root;
+    }
+};
+// 递归的写法
+class Solution {
+public:
+    
+    void dfs(TreeNode* root, string& s){
+        if(root == nullptr) {
+            s += "#,";
+            return ;
+        }
+        s += to_string(root->val);
+        s += ',';
+        dfs(root->left, s);
+        dfs(root->right, s);
+    }
+    char* Serialize(TreeNode *root) {    
+        string s;
+        dfs(root, s);
+        s.pop_back();
+        char* res = new char[s.size() + 1];
+        strcpy(res, s.c_str());
+        return res;
+    }
+    TreeNode* helpDes(vector<string>& datas){
+        if(datas.size() > 0 && datas[0] == "#") {
+            datas.erase(datas.begin());
+            return nullptr;
+        }
+        TreeNode* root = new TreeNode(stoi(datas[0]));
+        datas.erase(datas.begin());
+        root->left = helpDes(datas);
+        root->right = helpDes(datas);
+        return root;
+    }
+    TreeNode* Deserialize(char *str) {
+        stringstream ss(str);
+        string temp;
+        vector<string> datas;
+        while(getline(ss, temp, ',')) {
+            datas.push_back(temp);
+        }
+        return helpDes(datas);
+    }
+};
