@@ -47,3 +47,46 @@ TreeNode* lowestCommonAncestor1(TreeNode* root, TreeNode* p, TreeNode* q) {
         return left;
     return root;
 }
+
+// 使用遍历记录路径
+class Solution {
+public:
+    unordered_map<int, int> mp;
+    vector<int> path;
+    int lowestCommonAncestor(TreeNode* root, int o1, int o2) {
+        if(o1 == o2) return o1;
+        if(root->val == o1 || root->val == o2) return root->val;
+        stack<TreeNode*> stk;
+        stk.push(root);
+        mp[root->val] = -1;
+        int flag = 0;
+        while(!stk.empty() && flag != 2){
+            TreeNode* cur = stk.top(); stk.pop();
+            path.push_back(cur->val);
+            if(cur->val == o1)
+                flag++;
+            if(cur->val == o2)
+                flag++;
+            if(cur->right) {
+                stk.push(cur->right);
+                mp[cur->right->val] = cur->val;
+            }
+            if(cur->left) {
+                stk.push(cur->left);  
+                mp[cur->left->val] = cur->val;
+            } 
+        }
+        set<int> s;
+        while(mp[o1] != -1){
+            s.emplace(o1);
+            o1 = mp[o1];
+        }
+        while(mp[o2] != -1){
+            if(s.find(o2) != s.end()){
+                break;
+            }
+            o2 = mp[o2];
+        }
+        return o2;
+    }
+};
