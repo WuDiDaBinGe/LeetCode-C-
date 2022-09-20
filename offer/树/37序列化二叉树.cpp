@@ -157,7 +157,6 @@ public:
                 curRoot->left = new TreeNode(stoi(nums[cur]));
                 q.push(curRoot->left);
             }
-            
             cur++;
             if(nums[cur] == "#") curRoot->right = nullptr;
             else {

@@ -39,8 +39,8 @@ bool IsBalanced_Solution(TreeNode* pRoot) {
 // 以root为根的子树是否为平衡二叉树，不是 返回 -1 否则返回树的深度
 int maxDepth1(TreeNode* root) {
     if(root == nullptr) return 0;
-    int left = maxDepth(root->left);
-    int right = maxDepth(root->right);
+    int left = maxDepth1(root->left);
+    int right = maxDepth1(root->right);
     if(left == -1 || right == -1 || abs(left - right) > 1)
         return -1;
     else
