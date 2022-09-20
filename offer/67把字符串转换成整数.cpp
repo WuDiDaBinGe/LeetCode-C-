@@ -18,6 +18,7 @@ int strToInt(string str) {
     for(; str[i] >= '0' && str[i] <='9'; ++i) {
         // 难点：检查是否越界
         int maxHeight = INT_MAX / 10;
+        // 如果越界了
         if(maxHeight < res || (maxHeight / 10 == res && INT_MAX % 10 < (str[i] - '0'))) {
             return negFlag == -1 ? INT_MIN : INT_MAX;
         }
