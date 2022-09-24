@@ -61,6 +61,25 @@ int findNthDigit1(int n) {
         n_ += pow(10, i);
     }
 }
+/*补齐0*/
+class Solution1 {
+public:
+    /**
+     * 代码中的类名、方法名、参数名已经指定，请勿修改，直接返回方法规定的值即可
+     *
+     * 
+     * @param n int整型 
+     * @return int整型
+     */
+    int findNthDigit(int n) {
+        int  i = 1;
+        while(i * pow(10, i) < n) {
+            n += pow(10, i);
+            i++;
+        }
+        return to_string(n / i)[n % i] - '0';
+    }
+};
 int main() {
     cout<<findNthDigit(13)<<endl;
     cout<<findNthDigit(19)<<endl;
