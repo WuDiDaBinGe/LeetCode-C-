@@ -46,6 +46,31 @@ int nthUglyNumber2(int n) {
     }
     return dp[n];
 }
+// 使用优先队列 +  动态规划
+class Solution {
+  public:
+    int GetUglyNumber_Solution(int index) {
+        vector<int> dp(index + 1);
+        priority_queue<long long, vector<long long>, greater<long long>> pq;
+        dp[1] = 1;
+        pq.push(2);
+        pq.push(3);
+        pq.push(5);
+        if (index == 1) return 1;
+        for (int i = 2; i <= index; ++i) {
+            long long num = pq.top();
+            pq.pop();
+            while (!pq.empty() && pq.top() == num) {
+                pq.pop();
+            }
+            dp[index] = num;
+            pq.push(num * 2);
+            pq.push(num * 3);
+            pq.push(num * 5);
+        }
+        return dp[index];
+    }
+};
 int main() {
     cout<<nthUglyNumber2(1407)<<endl;
     return 0;

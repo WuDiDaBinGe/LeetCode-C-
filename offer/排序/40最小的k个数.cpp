@@ -41,6 +41,7 @@ vector<int> getLeastNumbers(vector<int>& arr, int k) {
     while(left < right) {
         int flag = arr[rand() % (right - left + 1) + left];
         vector<int> border = partition(left, right, arr, flag);
+        // 要注意这个边界条件
         if(border[0] < target && border[1] >= target) {
             break;
         } else if(target <= border[0]) {

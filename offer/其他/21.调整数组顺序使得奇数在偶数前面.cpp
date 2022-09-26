@@ -26,14 +26,16 @@ vector<int> exchange(vector<int>& nums) {
     int n = nums.size();
     int left = 0, right = nums.size() - 1;
     while (left < right) {
-        // 左边指针找奇数
+        // 左边指针找偶数
         while(left < n && nums[left] & 1 == 1) left++;
-        // 右边指针找偶数
+        // 右边指针找奇数
         while(right >= 0 && nums[right] & 1 == 0) right++;
         swap(nums[left], nums[right]);
     }
     return nums;
 }
+
+
 int main() {
     return 0;
 }

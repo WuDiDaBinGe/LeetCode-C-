@@ -41,6 +41,33 @@ vector<vector<int>> findContinuousSequence(int target) {
     }
     return result;
 }
+// 滑动窗口
+class Solution {
+  public:
+    vector<vector<int> > FindContinuousSequence(int sum) {
+        int left = 1;
+        int cur = 1;
+        int _sum = 0;
+        vector<vector<int>> res;
+        if (sum == 0 || sum == 1) return res;
+        while (cur <= (sum / 2 + 1) ) {
+            _sum += cur;
+            cur++;
+            while (_sum > sum) {
+                _sum -= left;
+                left++;
+            }
+            if (_sum == sum ) {
+                vector<int> t;
+                for (int i = left; i < cur; ++i) {
+                    t.push_back(i);
+                }
+                res.push_back(t);
+            }
+        }
+        return res;
+    }
+};
 int main() {
     
     return 0;

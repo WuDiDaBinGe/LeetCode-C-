@@ -6,4 +6,3 @@ int sumNums(int n) {
 }
 int main() {
     return 0;
-}

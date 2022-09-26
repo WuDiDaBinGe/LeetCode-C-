@@ -21,6 +21,20 @@ string reverseLeftWords(string s, int n) {
     }
     return s;
 }
+// 三次反转
+class Solution {
+public:
+    string LeftRotateString(string str, int n) {
+        int len = str.size();
+        if(len == 0) return str;
+        n = n % len;
+        if(n == 0) return str;
+        reverse(str.begin(), str.end());
+        reverse(str.begin(), str.begin() + len - n);
+        reverse(str.begin() + len - n, str.end());
+        return str;
+    }
+};
 int main() {
     return 0;
 }
