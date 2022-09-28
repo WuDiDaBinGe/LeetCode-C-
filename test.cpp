@@ -1,11 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
-int main() {
-	vector<string> a = {"abcd", "a bcd", "abc d", "abbcd"};
-	sort(a.begin(), a.end());
-	a.push_back("aaaa");
-	for(string s : a) {
-		cout<<s<<"|";
-	}
+int main(){
+	cout<<-10%8<<endl;
+	cout<<-100%33<<endl;
 	return 0;
 }

@@ -47,7 +47,7 @@ vector<int> searchRange(vector<int>& nums, int target) {
 }
 int main() {
     vector<int> array = {5,7,7,8,8,10};
-    vector<int> temp = searchRange(array, 6);
+    vector<int> temp = searchRange(array, 8);
     cout<<temp[0]<<" "<<temp[1]<<endl;
     return 0;
 }

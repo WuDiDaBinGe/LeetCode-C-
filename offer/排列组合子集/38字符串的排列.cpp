@@ -30,6 +30,32 @@ public:
         }
     }
 };
+/*交换*/
+class Solution {
+  public:
+    vector<string> res;
+    void dfs(int h, string& str) {
+        if (h == str.size()) {
+            res.push_back(str);
+            return;
+        }
+        set<char> st;
+        for (int i = h; i < str.size(); ++i) {
+            if(st.find(str[i]) != st.end()) continue;
+            st.insert(str[i]);
+            swap(str[h], str[i]);
+            dfs(h + 1, str);
+            swap(str[h], str[i]);
+        }
+    }
+    vector<string> Permutation(string str) {
+        int n = str.size();
+        if (n == 0) return res;
+        sort(str.begin(), str.end());
+        dfs(0, str);
+        return res;
+    }
+};
 int main() {
     Solution* a =new Solution();
     a->permutation("aba");
