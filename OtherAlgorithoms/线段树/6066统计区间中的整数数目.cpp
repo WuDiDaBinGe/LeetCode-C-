@@ -1,16 +1,15 @@
 #include<bits/stdc++.h>
 using namespace std;
 // 使用set求解并区间
-class CountIntervals {
+class CountIntervals1 {
     typedef pair<int, int> pii;
     // 保存所有无相交的区间
     set<pii> st;
 public:
     int res = 0;
-    CountIntervals() {
+    CountIntervals1() {
 
     }
-    
     void add(int left, int right) {
         int L = left, R = right;
         // 相差1也连接起来
@@ -26,11 +25,15 @@ public:
         res += (R - L + 1);
         st.insert(pii(R, L));
     }
-    
     int count() {
         return res;
     }
 };
+class CountIntervals {
+    CountIntervals1 *left = nullptr, *right = nullptr;
+public:
+
+}
 int main() {
     return 0;
 }
