@@ -24,7 +24,6 @@ public:
         res += (R - L + 1);
         st.insert(pii(R, L));
     }
-    
     int count() {
         return res;
     }
@@ -53,6 +52,7 @@ public:
     }
     int count() {return cnt;}
 };
+
 int main() {
     return 0;
 }
